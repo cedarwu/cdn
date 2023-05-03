@@ -28,13 +28,13 @@ func init() {
 func JoinPath(base, path string) string {
 	parsedBase, err := url.Parse(base)
 	if err != nil {
-		log.Printf("error parsing base: ", err)
+		log.Printf("error parsing base: %v", err)
 		return ""
 	}
 
 	parsedPath, err := url.Parse(path)
 	if err != nil {
-		log.Printf("error parsing path: ", err)
+		log.Printf("error parsing path: %v", err)
 		return ""
 	}
 

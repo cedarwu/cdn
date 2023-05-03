@@ -14,4 +14,5 @@ func main() {
 	router.Use(cors.New(config))
 
 	router.GET("/*path", GetHandler)
+	router.DELETE("/*path", DeleteHandler)
 }
