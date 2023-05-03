@@ -40,6 +40,8 @@ func GetHandler(c *gin.Context) {
 		return
 	}
 
+	log.Printf("downloading from %s", joinedPath)
+
 	client := http.Client{
 		Timeout: defaultRemoteTimeout,
 	}
