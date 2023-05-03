@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
@@ -15,4 +17,11 @@ func main() {
 
 	router.GET("/*path", GetHandler)
 	router.DELETE("/*path", DeleteHandler)
+
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+
+	err := router.Run()
+	if err != nil {
+		log.Println("run error:", err)
+	}
 }
