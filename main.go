@@ -4,7 +4,6 @@ import (
 	"log"
 
 	"github.com/gin-contrib/cors"
-	"github.com/gin-contrib/gzip"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,7 +14,6 @@ func main() {
 	config := cors.DefaultConfig()
 	config.AllowAllOrigins = true
 	router.Use(cors.New(config))
-	router.Use(gzip.Gzip(gzip.DefaultCompression))
 
 	router.GET("/*path", GetHandler)
 	router.DELETE("/*path", DeleteHandler)
