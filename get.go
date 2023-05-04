@@ -3,13 +3,22 @@ package main
 import (
 	"io"
 	"log"
+	"net"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
 
 func GetHandler(c *gin.Context) {
 	path := c.Param("path")
+	if len(path) <= 1 {
+		c.JSON(404, gin.H{
+			"message": "invalid path",
+		})
+		return
+	}
+
 	log.Printf("GET %s", path)
 
 	data, ok := FileCache.Get(path)
@@ -21,6 +30,19 @@ func GetHandler(c *gin.Context) {
 		return
 	}
 
+	host := c.Request.Host
+	if len(host) == 0 {
+		log.Printf("can not get host")
+		c.JSON(400, gin.H{
+			"message": "invalid host",
+		})
+		return
+	}
+	domain, _, err := net.SplitHostPort(host)
+	if err != nil {
+		domain = host
+	}
+
 	base := c.GetHeader("Referer")
 	if len(base) == 0 {
 		base = c.GetHeader("Origin")
@@ -28,6 +50,12 @@ func GetHandler(c *gin.Context) {
 	if len(base) == 0 {
 		c.JSON(404, gin.H{
 			"message": "no refer or origin",
+		})
+		return
+	}
+	if strings.Contains(base, domain) {
+		c.JSON(400, gin.H{
+			"message": "invalid refer/origin",
 		})
 		return
 	}
