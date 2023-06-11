@@ -43,9 +43,9 @@ func GetHandler(c *gin.Context) {
 		domain = host
 	}
 
-	base := c.GetHeader("Referer")
+	base := strings.TrimSpace(c.GetHeader("Origin"))
 	if len(base) == 0 {
-		base = c.GetHeader("Origin")
+		base = strings.TrimSpace(c.GetHeader("Referer"))
 	}
 	if len(base) == 0 {
 		c.JSON(404, gin.H{
